@@ -9,3 +9,14 @@
   width: 94px;
   height: 26px;
 }
+
+@media screen and (max-width: 320px) {
+  .header {
+    padding: 10px 113px;
+  }
+
+  .header__logo {
+    width: 76px;
+    height: 26px;
+  }
+}

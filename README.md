@@ -1,43 +1,31 @@
 # Spots
 
-An image sharing site.
+An image sharing site/application.
 
 ## Description
 
-TODO - Describe the project and its functionality.
+The aim of this webpage/application, was to create an image sharing interface that can be properly viewed in 3 different resolutions for different devices. The resolutions include the desktop format, tablet format, and mobile format. The specific numbers are 1440p, 720p and 360p respectively.The use of media querries was nescessary to ensure that all text, icons, and images could fit the designated resolutions listed above. Both flexbox and grid were required to ensure that all assets were aligned correctly on the page in general. The project will be further developed in upcoming Trippleten sprints.
 
 ## Tech Stack
 
--HTML
--CSS
--Responsive design
+-HTML - Was used for the structure of the web application.
+-CSS - Was used for both styling aligning all blocks and elements.
+-Figma - Was used to gather the schematics for the Spots application. It was also used for exporting image assets.
+-VS Code - Our trusted IED for for web development.
+-git/gitbash - Was used to save and document changes to the web application during development.
+-Github - Was used to store the saved changes that were pushed from git. It is also a great platform for web deployment.
+-BEM - Not a technology but the methodology used for organizing code blocks and elements.
 
 ## Pictures of project features
 
+Will be added with future updates.
+
 ## Deployment
 
-This webpage is deployed to GitHub Pages
+This webpage is deployed to GitHub Pages.
 
 - Deployment Link
 
-# Project 3: Spots
+## Link to video
 
-### Overview
-
-- Intro
-- Figma
-- Images
-
-**Intro**
-
-This project is made so all the elements are displayed correctly on popular screen sizes. We recommend investing more time in completing this project, since it's more difficult than previous ones.
-
-**Figma**
-
-- [Link to the project on Figma](https://www.figma.com/file/BBNm2bC3lj8QQMHlnqRsga/Sprint-3-Project-%E2%80%94-Spots?type=design&node-id=2%3A60&mode=design&t=afgNFybdorZO6cQo-1)
-
-**Images**
-
-The way you'll do this at work is by exporting images directly from Figma — we recommend doing that to practice more. Don't forget to optimize them [here](https://tinypng.com/), so your project loads faster.
-
-Good luck and have fun!
+- Will be provided after the first submission attempt results.
