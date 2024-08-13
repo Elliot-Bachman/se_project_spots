@@ -28,4 +28,4 @@ This webpage is deployed to GitHub Pages.
 
 ## Link to video
 
-- Will be provided after the first submission attempt results.
+-https://drive.google.com/file/d/1pkasIka7mUWH5vk3pJ6Y3t75yVtcA-Ml/view?usp=sharing
