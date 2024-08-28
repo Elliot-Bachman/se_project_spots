@@ -12,7 +12,7 @@
   padding: 0 20px;
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s linear 0s, opacity 0.5s linear;
+  transition: visibility 0s linear 0.4s, opacity 0.5s linear;
 }
 
 .modal_opened {
@@ -29,7 +29,6 @@
   position: relative;
   box-sizing: border-box;
   border-radius: 8px;
-  /*visibility: visible;*/
 }
 
 .modal__close-btn {
@@ -38,14 +37,16 @@
   right: 50px;
   width: 40px;
   height: 40px;
-  background-image: url(../images/Group\ 27.jpg);
-  background-color: #fff;
-  border: none;
   opacity: 0.4;
+  background-image: url(../images/Close.svg);
+  background-color: transparent;
+  background-position: center;
+  border: none;
   cursor: pointer;
+  transition: opacity 0.4s ease;
 }
 
-.modal_close-btn:hover {
+.modal__close-btn:hover {
   opacity: 1;
 }
 
@@ -62,7 +63,8 @@
   flex-direction: column;
   gap: 8px;
   margin-bottom: 32px;
-  font-weight: 500px;
+  font-family: Poppins, Arial, Helvetica, sans-serif;
+  font-weight: 500;
   font-size: 16px;
   line-height: 1.1;
   opacity: 0.7;
@@ -71,6 +73,22 @@
 
 .modal__input {
   padding: 16px 12px;
+  border-radius: 8px;
+  border: #21212140 1px solid;
+  font-weight: 500;
+  line-height: 1;
+  opacity: 1;
+  transition: border 0.3s ease, opacity 0.3s ease;
+}
+
+.modal__input:hover {
+  border: #212121 1px solid;
+  cursor: pointer;
+}
+
+.modal__input:focus {
+  opacity: 1;
+  outline: none;
 }
 
 .modal__submit-btn {
@@ -78,8 +96,18 @@
   padding: 18px 0;
   border-radius: 8px;
   border: none;
-  background-color: #212121;
+  background-color: rgba(33, 33, 33, 1);
   color: #fcf5e5;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  transition: opacity 0.4s ease;
+}
+
+.modal__submit-btn:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }
 
 @media screen and (max-width: 627px) {

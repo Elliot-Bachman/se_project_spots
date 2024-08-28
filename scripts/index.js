@@ -42,7 +42,7 @@ const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
 
 function getCardElement(data) {
-  console.log(data);
+  console.log(data); // For debugging purposes
   const cardElement = cardTemplate.content
     .querySelector(".card")
     .cloneNode(true);
@@ -80,5 +80,5 @@ editFormElement.addEventListener("submit", handleEditFormSubmit);
 
 for (let i = 0; i < initialCards.length; i++) {
   const cardElement = getCardElement(initialCards[i]);
-  cardsList.prepend(cardElement);
+  cardsList.append(cardElement);
 }
