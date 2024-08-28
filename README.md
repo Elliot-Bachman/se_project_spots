@@ -16,6 +16,8 @@ The aim of this webpage/application, was to create an image sharing interface th
 -Github - Was used to store the saved changes that were pushed from git. It is also a great platform for web deployment.
 -BEM - Not a technology but the methodology used for organizing code blocks and elements.
 
+- Java-Script DOM was used for creating dyanamic cards and a modal for personal information submission.
+
 ## Pictures of project features
 
 Will be added with future updates.
