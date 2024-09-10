@@ -16,7 +16,11 @@ The aim of this webpage/application, was to create an image sharing interface th
 -Github - Was used to store the saved changes that were pushed from git. It is also a great platform for web deployment.
 -BEM - Not a technology but the methodology used for organizing code blocks and elements.
 
-- Java-Script DOM was used for creating dyanamic cards and a modal for personal information submission.
+- Java-Script DOM was used for creating dyanamic cards and a modal for personal information submission. 9/29/2024
+
+- 2 New modals were added for user accessibility. One modal allows the user to upload image URLs and text captions. The other modal allows for the user to click on the image to enlarge it for easier viewing. 9/10/2024.
+
+- Users can now delete card images too with the trash icons located on each card. The like buttons now stay lit with a red color when clicked on.
 
 ## Pictures of project features
 
