@@ -38,6 +38,7 @@
   max-width: 80vw;
   min-height: 80vh;
   width: fit-content;
+  max-width: 80vw;
 }
 
 .modal__image {
@@ -164,8 +165,7 @@
   }
 
   .modal__container {
-    width: 100%;
-    padding: 12px;
+    padding: 12px 12px;
   }
 
   .modal__title {
@@ -188,9 +188,18 @@
 
   .modal__close-btn_type_preview {
     top: -32px;
+    right: 3px;
   }
 
   .modal__input {
     font-size: 16px;
+    right: 0px;
+  }
+
+  .modal__caption {
+    font-size: 16px;
+  }
+  .modal__image {
+    border-radius: 4px;
   }
 }

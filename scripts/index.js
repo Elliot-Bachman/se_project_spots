@@ -73,6 +73,9 @@ function getCardElement(data) {
   cardImageEl.src = data.link;
   cardImageEl.alt = data.name;
 
+  // Edit profile form submission
+  editFormElement.addEventListener("submit", handleEditFormSubmit);
+
   // Toggle like button
   cardLikeBtn.addEventListener("click", () => {
     cardLikeBtn.classList.toggle("card__like-btn_liked");
