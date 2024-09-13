@@ -78,8 +78,13 @@
   transition: opacity 0.4s ease;
 }
 
+.modal__close-btn:hover {
+  cursor: pointer;
+  opacity: 100%;
+}
+
 .modal__close-btn_type_preview {
-  background-image: url(../images/White\ Close\ Icon.svg);
+  background-image: url(../images/White_Close_Icon.svg);
   top: 0;
   right: -52.5px;
   opacity: 1;
@@ -88,11 +93,6 @@
 .modal__close-btn_type_preview:hover {
   opacity: 0.4;
   cursor: pointer;
-}
-
-.modal__close-btn:hover {
-  cursor: pointer;
-  opacity: 100%;
 }
 
 .modal__title {
