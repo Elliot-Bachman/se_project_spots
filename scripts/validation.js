@@ -2,7 +2,7 @@ const settings = {
   formSelector: ".modal__form",
   inputSelector: ".modal__input",
   submitButtonSelector: ".modal__submit-btn",
-  inactiveButtonClass: "modal__button_disabled",
+  inactiveButtonClass: "modal__submit-btn_inactive",
   inputErrorClass: "modal__input_type_error",
   errorClass: "modal__error",
 };
@@ -12,21 +12,23 @@ const showInputError = (formElement, inputElement, errorMessage, config) => {
     `#${inputElement.id}-error`
   );
   errorMessageElement.textContent = errorMessage;
-  inputElement.classList.add(config.inactiveButtonClass);
+  inputElement.classList.add(config.inputErrorClass);
   errorMessageElement.classList.add(config.errorClass);
 };
 
 const hideInputError = (formElement, inputElement, config) => {
+  console.log("Hiding input error for: ", inputElement.id);
   const errorMessageElement = formElement.querySelector(
     `#${inputElement.id}-error`
   );
   errorMessageElement.textContent = "";
-  inputElement.classList.remove(config.inactiveButtonClass);
+  inputElement.classList.remove(config.inputErrorClass);
   errorMessageElement.classList.remove(config.errorClass);
 };
 
 const checkInputValidity = (formElement, inputElement, config) => {
   if (!inputElement.validity.valid) {
+    console.log("Ivalid input");
     showInputError(
       formElement,
       inputElement,
@@ -34,13 +36,14 @@ const checkInputValidity = (formElement, inputElement, config) => {
       config
     );
   } else {
+    console.log("Valid input - removing error class");
     hideInputError(formElement, inputElement, config);
   }
 };
 
 const hasInvalidInput = (inputList, config) => {
   return inputList.some((inputElement) => {
-    return !inputElement.validity.valid; // Fixed reference to inputElement
+    return !inputElement.validity.valid;
   });
 };
 

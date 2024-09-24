@@ -1,3 +1,29 @@
+// Function that closes modal with Escape key press
+function handleEscClose(event) {
+  if (event.key === "Escape") {
+    const openedModal = document.querySelector(".modal_opened");
+    if (openedModal) {
+      closeModal(openedModal);
+    }
+  }
+}
+
+// Function to open modal
+function openModal(modal) {
+  modal.classList.add("modal_opened");
+}
+
+// Event Listener for escape key when modal opens
+document.addEventListener("keydown", handleEscClose);
+
+// Function to close modal
+function closeModal(modal) {
+  modal.classList.remove("modal_opened");
+}
+
+// Removes event listner for Escape key when modal closes
+document.removeEventListener("keydown", handleEscClose);
+
 const initialCards = [
   {
     name: "Val Thorens",
@@ -96,11 +122,6 @@ function getCardElement(data) {
   });
 
   return cardElement;
-}
-
-// Function to open modal
-function openModal(modal) {
-  modal.classList.add("modal_opened");
 }
 
 // Function to close modal

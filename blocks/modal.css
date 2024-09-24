@@ -136,7 +136,7 @@
   outline: none;
 }
 
-.modal__input_type_error {
+.modal__input.modal__input_type_error {
   border: 1px solid rgba(255, 0, 0, 0.6);
 }
 
