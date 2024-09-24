@@ -35,13 +35,14 @@ const profileDescription = document.querySelector(".profile__description");
 const editModal = document.querySelector("#edit-modal");
 const editFormElement = editModal.querySelector(".modal__form");
 const editModalCloseBtn = editModal.querySelector(".modal__close-btn");
-const editModalNameInput = editModal.querySelector("#profile_name_input");
+const editModalNameInput = editModal.querySelector("#profile-name-input");
 const editModalDescriptionInput = editModal.querySelector(
   "#profile-description-input"
 );
 
 const cardModal = document.querySelector("#add-card-modal");
 const cardModalCloseBtn = cardModal.querySelector(".modal__close-btn");
+const cardModalSubmitBtn = cardModal.querySelector(".modal__submit-btn");
 const cardNameInput = cardModal.querySelector("#add-card-name-input");
 const cardLinkInput = cardModal.querySelector("#add-card-link-input");
 const cardForm = cardModal.querySelector(".modal__form");
@@ -123,6 +124,7 @@ function handleEditFormSubmit(event) {
 // Handle the add card form submission
 function handleAddCardFormSubmit(event) {
   event.preventDefault();
+  disableButton(cardModalSubmitBtn, settings);
 
   // Create a new card object with the values from the input fields
   const cardData = {
@@ -148,6 +150,11 @@ function handleAddCardFormSubmit(event) {
 profileEditButton.addEventListener("click", () => {
   editModalNameInput.value = profileName.textContent;
   editModalDescriptionInput.value = profileDescription.textContent;
+  resetValidation(
+    editFormElement,
+    [editModalNameInput, editModalDescriptionInput],
+    settings
+  );
   openModal(editModal);
 });
 
