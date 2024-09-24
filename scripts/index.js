@@ -3,26 +3,26 @@ function handleEscClose(event) {
   if (event.key === "Escape") {
     const openedModal = document.querySelector(".modal_opened");
     if (openedModal) {
-      closeModal(openedModal);
+      closeModal(openedModal); // Close the currently opened modal
     }
   }
 }
 
-// Function to open modal
+// Function to open modal and add escape key listener
 function openModal(modal) {
   modal.classList.add("modal_opened");
+
+  // Add event listener for Escape key when the modal opens
+  document.addEventListener("keydown", handleEscClose);
 }
 
-// Event Listener for escape key when modal opens
-document.addEventListener("keydown", handleEscClose);
-
-// Function to close modal
+// Function to close modal and remove escape key listener
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
-}
 
-// Removes event listner for Escape key when modal closes
-document.removeEventListener("keydown", handleEscClose);
+  // Remove event listener for Escape key when the modal closes
+  document.removeEventListener("keydown", handleEscClose);
+}
 
 const initialCards = [
   {
@@ -124,11 +124,6 @@ function getCardElement(data) {
   return cardElement;
 }
 
-// Function to close modal
-function closeModal(modal) {
-  modal.classList.remove("modal_opened");
-}
-
 // Event listener to close Preview Modal
 previewModalCloseBtn.addEventListener("click", () => {
   closeModal(previewModal);
@@ -176,17 +171,22 @@ profileEditButton.addEventListener("click", () => {
     [editModalNameInput, editModalDescriptionInput],
     settings
   );
-  openModal(editModal);
+  openModal(editModal); // Open the modal
 });
 
 // Event listener to close profile edit modal
 editModalCloseBtn.addEventListener("click", () => {
-  closeModal(editModal);
+  closeModal(editModal); // Close the modal
 });
 
 // Event listener to open the "Add Card" modal
 profileCardModalButton.addEventListener("click", () => {
-  openModal(cardModal);
+  openModal(cardModal); // Open the modal
+});
+
+// Event listener to close the "Add Card" modal
+cardModalCloseBtn.addEventListener("click", () => {
+  closeModal(cardModal); // Close the modal
 });
 
 // Event listener to submit the "Add Card" form
@@ -196,9 +196,4 @@ cardForm.addEventListener("submit", handleAddCardFormSubmit);
 initialCards.forEach((item) => {
   const cardElement = getCardElement(item);
   cardsList.append(cardElement);
-});
-
-// Event listener to close the "Add Card" modal
-cardModalCloseBtn.addEventListener("click", () => {
-  closeModal(cardModal);
 });
