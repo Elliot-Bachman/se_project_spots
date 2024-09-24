@@ -3,25 +3,38 @@ function handleEscClose(event) {
   if (event.key === "Escape") {
     const openedModal = document.querySelector(".modal_opened");
     if (openedModal) {
-      closeModal(openedModal); // Close the currently opened modal
+      closeModal(openedModal);
     }
   }
 }
 
-// Function to open modal and add escape key listener
+// Function to close the modal when clicked outside modal content
+function handleOverlayClick(event) {
+  if (event.target.classList.contains("modal_opened")) {
+    closeModal(event.target); // Close modal if the overlay (outside content) is clicked
+  }
+}
+
+// Function to open modal and add escape key + overlay click listeners
 function openModal(modal) {
   modal.classList.add("modal_opened");
 
   // Add event listener for Escape key when the modal opens
   document.addEventListener("keydown", handleEscClose);
+
+  // Add event listener to close modal when clicking outside the content
+  modal.addEventListener("mousedown", handleOverlayClick);
 }
 
-// Function to close modal and remove escape key listener
+// Function to close modal and remove escape key + overlay click listeners
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
 
   // Remove event listener for Escape key when the modal closes
   document.removeEventListener("keydown", handleEscClose);
+
+  // Remove event listener for clicking outside modal content
+  modal.removeEventListener("mousedown", handleOverlayClick);
 }
 
 const initialCards = [

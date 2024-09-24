@@ -22,6 +22,10 @@ The aim of this webpage/application, was to create an image sharing interface th
 
 - Users can now delete card images too with the trash icons located on each card. The like buttons now stay lit with a red color when clicked on.
 
+- Users can now have validation if their text input is correct or not. The text lines light up red to indicate an error in form input. The submit buttons are grayed out to indicate that incorrect data is input.
+
+- Users can now exit each modal by either clicking the escape key or by mouse clicking anywhere outside the modal on the SPOTS web page.
+
 ## Pictures of project features
 
 Will be added with future updates.
