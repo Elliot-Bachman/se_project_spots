@@ -76,7 +76,7 @@
             Name
             <input
               id="profile-name-input"
-              name="name"
+              name="Name"
               type="text"
               class="modal__input"
               placeholder="Type your name"
@@ -93,7 +93,7 @@
               name="Description"
               type="text"
               class="modal__input"
-              placeholder="Describe yourself"
+              placeholder="Type your description here"
               minlength="2"
               maxlength="200"
               required
@@ -111,9 +111,13 @@
     <!-- Add Card Modal -->
     <div class="modal" id="add-card-modal">
       <div class="modal__container">
-        <button type="button" class="modal__close-btn"></button>
+        <button
+          type="button"
+          class="modal__close-btn"
+          id="modal-close-btn"
+        ></button>
         <h2 class="modal__title">New post</h2>
-        <form name="add-card" class="modal__form">
+        <form name="add-card" class="modal__form" id="card-form" novalidate>
           <label for="add-card-link-input" class="modal__label">
             Image link
             <input
@@ -129,7 +133,7 @@
           <label for="add-card-name-input" class="modal__label">
             Caption
             <input
-              id="add-card-name-input"
+              id="card-caption-input"
               name="name"
               type="text"
               class="modal__input"
@@ -147,20 +151,27 @@
 
     <!-- Preview Modal -->
     <div class="modal" id="preview-modal">
-      <div class="modal__container modal__container_type_preview">
-        <button
-          type="button"
-          class="modal__close-btn modal__close-btn_type_preview"
-        ></button>
-        <img class="modal__image" src="" alt="An Image of Val Thorens" />
-        <p class="modal__caption"></p>
+      <div class="modal__preview">
+        <div class="modal__container modal__container_type_preview">
+          <button
+            type="submit"
+            class="modal__close-btn modal__close-btn_type_preview"
+            id="modal-close-btn"
+          ></button>
+          <img class="modal__image" src="" alt="" />
+          <p class="modal__caption"></p>
+        </div>
       </div>
     </div>
 
     <!-- Avatar Modal -->
     <div class="modal" id="avatar-modal">
       <div class="modal__container">
-        <button type="button" class="modal__close-btn"></button>
+        <button
+          type="button"
+          class="modal__close-btn"
+          id="avatar-modal-close-btn"
+        ></button>
         <h2 class="modal__title">Edit Avatar</h2>
         <form
           name="edit-avatar"
@@ -169,12 +180,13 @@
           novalidate
         >
           <label for="profile-avatar-input" class="modal__label">
-            Avatar
+            >Profile Picture
             <input
               id="profile-avatar-input"
               name="avatar"
+              tupe="url"
               class="modal__input"
-              placeholder="Avatar goes here"
+              placeholder="Paste the link to an image"
               required
             />
             <span id="profile-avatar-input-error" class="modal__error"></span>
@@ -186,19 +198,33 @@
 
     <!--TODO STYLE THE Delete MODAL-->
     <div class="modal" id="delete-modal">
-      <div class="modal__container">
-        <button type="button" class="modal__close-btn"></button>
+      <div class="modal__container modal__container_type_delete">
+        <button
+          type="button"
+          class="modal__close-btn"
+          id="delete-modal-close-btn"
+        ></button>
         <h2 class="modal__title">
           Are you sure you want to delete this image?
         </h2>
         <form
           name="delete-form"
-          class="modal__form"
+          class="modal__form modal__form_type_delete"
           id="delete-form"
           novalidate
         >
-          <button type="submit" class="modal__submit-btn">Delete</button>
-          <button type="button" class="modal__submit-btn">Cancel</button>
+          <button
+            type="submit"
+            class="modal__submit-btn modal__submit-btn_type_delete"
+          >
+            Delete
+          </button>
+          <button
+            type="button"
+            class="modal__submit-btn modal__submit-btn_type_cancel"
+          >
+            Cancel
+          </button>
         </form>
       </div>
     </div>

@@ -28,11 +28,20 @@ document.querySelector(".white__pencil-icon").src = whitePencilIcon;
 
 let selectedCard, selectedCardId;
 
-// Initialize API instance
-const api = new Api("https://around-api.en.tripleten-services.com/v1", {
-  authorization: "d4e5590c-631d-43b1-a995-240237f6ac96",
-  "Content-Type": "application/json",
+// Initialize API instance with baseUrl and headers
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "d4e5590c-631d-43b1-a995-240237f6ac96",
+    "Content-Type": "application/json",
+  },
 });
+
+// Selectors for modals
+const editModal = document.querySelector("#edit-modal");
+const cardModal = document.querySelector("#add-card-modal");
+const avatarModal = document.querySelector("#avatar-modal");
+const deleteModal = document.querySelector("#delete-modal");
 
 // Function to open and close modals
 function openModal(modal) {
@@ -65,7 +74,7 @@ function handleOverlayClick(event) {
 // Load initial data: user info and cards
 api
   .getAppInfo()
-  .then(([userInfo, cards]) => {
+  .then(([cards, userInfo]) => {
     document.querySelector(".profile__avatar").src = userInfo.avatar;
     document.querySelector(".profile__name").textContent = userInfo.name;
     document.querySelector(".profile__description").textContent =
@@ -146,6 +155,52 @@ if (deleteForm) {
   deleteForm.addEventListener("submit", handleDeleteSubmit);
 } else {
   console.error("Delete form not found");
+}
+
+// Profile Edit button listener
+const profileEditButton = document.querySelector(".profile__edit-btn");
+if (profileEditButton) {
+  profileEditButton.addEventListener("click", () => {
+    console.log("Edit profile button clicked"); // Check if listener is triggered
+    openModal(editModal);
+  });
+} else {
+  console.error("Profile Edit button not found");
+}
+
+// Add Card button listener
+const profileCardModalButton = document.querySelector(".profile__add-btn");
+if (profileCardModalButton) {
+  profileCardModalButton.addEventListener("click", () => {
+    console.log("Add card button clicked"); // Check if listener is triggered
+    openModal(cardModal);
+  });
+} else {
+  console.error("Add Card button not found");
+}
+
+// Avatar Edit button listener
+const avatarModalBtn = document.querySelector(".profile__avatar-btn");
+if (avatarModalBtn) {
+  avatarModalBtn.addEventListener("click", () => {
+    console.log("Avatar edit button clicked"); // Check if listener is triggered
+    openModal(avatarModal);
+  });
+} else {
+  console.error("Avatar Edit button not found");
+}
+
+// Delete Modal Cancel button listener
+const deleteCancelButton = document.querySelector(
+  ".modal__submit-btn_type_cancel"
+);
+if (deleteCancelButton) {
+  deleteCancelButton.addEventListener("click", () => {
+    console.log("Delete modal cancel button clicked"); // Check if listener is triggered
+    closeModal(deleteModal);
+  });
+} else {
+  console.error("Delete modal cancel button not found");
 }
 
 // Enable validation

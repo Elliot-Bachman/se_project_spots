@@ -1,24 +1,28 @@
 class Api {
-  constructor(baseUrl, headers) {
+  constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
     this._headers = headers;
   }
 
-  getAppInfo() {
-    // Returns both user info and initial cards, with errors handled at call site
-    return Promise.all([this.getUserInfo(), this.getInitialCards()]);
+  _checkResponse(res) {
+    if (res.ok) return res.json();
+    return Promise.reject(`Error: ${res.status} ${res.statusText}`);
   }
 
-  getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers,
-    }).then((res) => this._checkResponse(res));
+  getAppInfo() {
+    return Promise.all([this.getInitialCards(), this.getUserInfo()]);
   }
 
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
-    }).then((res) => this._checkResponse(res));
+    }).then(this._checkResponse);
+  }
+
+  getInitialCards() {
+    return fetch(`${this._baseUrl}/cards`, {
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
 
   editUserInfo({ name, about }) {
@@ -26,7 +30,7 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({ name, about }),
-    }).then((res) => this._checkResponse(res));
+    }).then(this._checkResponse);
   }
 
   editAvatarInfo(avatar) {
@@ -34,14 +38,14 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({ avatar }),
-    }).then((res) => this._checkResponse(res));
+    }).then(this._checkResponse);
   }
 
   deleteCard(id) {
     return fetch(`${this._baseUrl}/cards/${id}`, {
       method: "DELETE",
       headers: this._headers,
-    }).then((res) => this._checkResponse(res));
+    }).then(this._checkResponse);
   }
 
   addCard({ name, link }) {
@@ -49,15 +53,7 @@ class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({ name, link }),
-    }).then((res) => this._checkResponse(res));
-  }
-
-  // Centralized response check
-  _checkResponse(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status} ${res.statusText}`);
+    }).then(this._checkResponse);
   }
 }
 
