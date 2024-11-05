@@ -1,4 +1,4 @@
-const settings = {
+export const settings = {
   formSelector: ".modal__form",
   inputSelector: ".modal__input",
   submitButtonSelector: ".modal__submit-btn",
@@ -7,6 +7,7 @@ const settings = {
   errorClass: "modal__error",
 };
 
+// Function to show input error
 const showInputError = (formElement, inputElement, errorMessage, config) => {
   const errorMessageElement = formElement.querySelector(
     `#${inputElement.id}-error`
@@ -16,8 +17,8 @@ const showInputError = (formElement, inputElement, errorMessage, config) => {
   errorMessageElement.classList.add(config.errorClass);
 };
 
+// Function to hide input error
 const hideInputError = (formElement, inputElement, config) => {
-  console.log("Hiding input error for: ", inputElement.id);
   const errorMessageElement = formElement.querySelector(
     `#${inputElement.id}-error`
   );
@@ -26,9 +27,9 @@ const hideInputError = (formElement, inputElement, config) => {
   errorMessageElement.classList.remove(config.errorClass);
 };
 
+// Function to check input validity
 const checkInputValidity = (formElement, inputElement, config) => {
   if (!inputElement.validity.valid) {
-    console.log("Ivalid input");
     showInputError(
       formElement,
       inputElement,
@@ -36,19 +37,18 @@ const checkInputValidity = (formElement, inputElement, config) => {
       config
     );
   } else {
-    console.log("Valid input - removing error class");
     hideInputError(formElement, inputElement, config);
   }
 };
 
-const hasInvalidInput = (inputList, config) => {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  });
+// Function to check if there is any invalid input
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement) => !inputElement.validity.valid);
 };
 
+// Function to toggle button state based on input validity
 const toggleButtonState = (inputList, buttonElement, config) => {
-  if (hasInvalidInput(inputList, config)) {
+  if (hasInvalidInput(inputList)) {
     disableButton(buttonElement, config);
   } else {
     buttonElement.disabled = false;
@@ -56,7 +56,8 @@ const toggleButtonState = (inputList, buttonElement, config) => {
   }
 };
 
-const disableButton = (buttonElement, config) => {
+// Function to disable button and add styling
+export const disableButton = (buttonElement, config) => {
   if (buttonElement) {
     buttonElement.disabled = true;
     buttonElement.classList.add(config.inactiveButtonClass);
@@ -65,47 +66,36 @@ const disableButton = (buttonElement, config) => {
   }
 };
 
-// OPTIONAL CODE to reset form text input
-const resetValidation = (formElement, inputList, config) => {
+// Function to reset form validation
+export const resetValidation = (formElement, inputList, config) => {
   inputList.forEach((inputElement) => {
     hideInputError(formElement, inputElement, config);
   });
+  const buttonElement = formElement.querySelector(config.submitButtonSelector);
+  toggleButtonState(inputList, buttonElement, config);
 };
 
-// Use settings object for all functions instead of hard coded strings
+// Function to set event listeners on form inputs
 const setEventListeners = (formElement, config) => {
   const inputList = Array.from(
     formElement.querySelectorAll(config.inputSelector)
   );
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
 
-  // Debuggin logs
-  console.log("Form element:", formElement);
-  console.log("Submit button selector:", config.submitButtonSelector);
-  console.log("Button element found:", buttonElement);
-
-  // debug
-  if (!buttonElement) {
-    console.error("Button element not found in form:", formElement);
-    return; // Prevent further execution if button is not found
-  }
-
-  // TODO: handle initial states
   toggleButtonState(inputList, buttonElement, config);
 
   inputList.forEach((inputElement) => {
-    inputElement.addEventListener("input", function () {
+    inputElement.addEventListener("input", () => {
       checkInputValidity(formElement, inputElement, config);
       toggleButtonState(inputList, buttonElement, config);
     });
   });
 };
 
-const enableValidation = (config) => {
+// Function to enable validation on all forms
+export const enableValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
   formList.forEach((formElement) => {
     setEventListeners(formElement, config);
   });
 };
-
-enableValidation(settings);
