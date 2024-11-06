@@ -27,7 +27,7 @@ document.querySelector(".white__pencil-icon").src = whitePencilIcon;
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
-    authorization: "7168c248-0a43-42b8-8398-399569b1c6fd",
+    authorization: "df56a4ed-ea57-4811-a86a-44f3045b99eb",
     "Content-Type": "application/json",
   },
 });
@@ -41,6 +41,7 @@ const deleteForm = document.querySelector("#delete-form");
 const cardForm = document.querySelector("#card-form");
 const avatarForm = document.querySelector("#edit-avatar-form");
 const editProfileForm = document.querySelector("#edit-profile-form");
+const previewModal = document.querySelector("#preview-modal");
 
 // Open and close modal functions
 function openModal(modal) {
@@ -55,13 +56,19 @@ function closeModal(modal) {
   modal.removeEventListener("mousedown", handleOverlayClick);
 }
 
+// Escape key close handler
 function handleEscClose(event) {
-  if (event.key === "Escape")
-    closeModal(document.querySelector(".modal_opened"));
+  if (event.key === "Escape") {
+    const openedModal = document.querySelector(".modal_opened");
+    if (openedModal) closeModal(openedModal);
+  }
 }
 
+// Overlay click close handler
 function handleOverlayClick(event) {
-  if (event.target.classList.contains("modal_opened")) closeModal(event.target);
+  if (event.target.classList.contains("modal_opened")) {
+    closeModal(event.target);
+  }
 }
 
 // Helper to set up modal close buttons
@@ -99,14 +106,31 @@ function createCardElement(data) {
   cardImageEl.alt = data.name;
 
   cardElement.querySelector(".card__title").textContent = data.name;
+
+  setUpImagePreview(cardImageEl, data);
   setUpLikeButton(cardElement.querySelector(".card__like-btn"), data);
   cardElement
     .querySelector(".card__delete-btn")
     .addEventListener("click", () => openDeleteModal(cardElement, data._id));
+
   return cardElement;
 }
 
-// Like button handler
+// Helper function to set up image preview
+function setUpImagePreview(imageElement, data) {
+  imageElement.addEventListener("click", () => {
+    const modalImage = previewModal.querySelector(".modal__image");
+    const modalCaption = previewModal.querySelector(".modal__caption");
+
+    modalImage.src = data.link;
+    modalImage.alt = data.name;
+    modalCaption.textContent = data.name;
+
+    openModal(previewModal);
+  });
+}
+
+// Function for Like button handler
 function setUpLikeButton(likeButton, data) {
   if (data.isLiked) likeButton.classList.add("card__like-btn_liked");
 
@@ -121,7 +145,7 @@ function setUpLikeButton(likeButton, data) {
   });
 }
 
-// Delete modal logic
+// Function for Delete modal logic
 function openDeleteModal(cardElement, cardId) {
   openModal(deleteModal);
   deleteForm.addEventListener(
