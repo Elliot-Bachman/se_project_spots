@@ -147,29 +147,25 @@ function setUpLikeButton(likeButton, data) {
 
 // Function for Delete modal logic
 function openDeleteModal(cardElement, cardId) {
+  const deleteButton = deleteForm.querySelector(".modal__submit-btn");
+  showLoading(deleteButton, false, "Delete"); // Ensure "Delete" is the default text
   openModal(deleteModal);
+
+  // Event listener for actual deletion
   deleteForm.addEventListener(
     "submit",
     (evt) => {
       evt.preventDefault();
-      showLoading(
-        deleteForm.querySelector(".modal__submit-btn"),
-        true,
-        "Deleting..."
-      );
+      showLoading(deleteButton, true, "Deleting..."); // Set button to "Deleting..."
+
       api
         .deleteCard(cardId)
         .then(() => {
-          cardElement.remove();
+          cardElement.remove(); // Remove card from DOM after deletion
           closeModal(deleteModal);
         })
-        .finally(() =>
-          showLoading(
-            deleteForm.querySelector(".modal__submit-btn"),
-            false,
-            "Delete"
-          )
-        );
+        .catch((error) => console.error("Failed to delete card:", error))
+        .finally(() => showLoading(deleteButton, false, "Delete")); // Revert button text to "Delete"
     },
     { once: true }
   );
@@ -230,6 +226,16 @@ cardForm.addEventListener("submit", (evt) => {
     })
     .finally(() => showLoading(saveButton, false));
 });
+
+// Cancel button event listener to close delete modal without deleting
+const deleteCancelButton = deleteModal.querySelector(
+  ".modal__submit-btn_type_cancel"
+);
+if (deleteCancelButton) {
+  deleteCancelButton.addEventListener("click", () => closeModal(deleteModal));
+} else {
+  console.error("Cancel button in delete modal not found");
+}
 
 // Open Add Card modal
 const addCardButton = document.querySelector(".profile__add-btn");
