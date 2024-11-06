@@ -18,6 +18,8 @@ import whitePencilIcon from "../images/White-Pencil.png";
 
 // Import Api
 import Api from "../utils/Api.js";
+// Import helper.js
+import { showLoading } from "../utils/helpers.js";
 
 // Set image sources
 document.querySelector(".header__logo").src = logoImage;
@@ -116,11 +118,31 @@ function getCardElement(data) {
   cardImageEl.src = data.link;
   cardImageEl.alt = data.name;
 
-  // Add event listeners for like and delete buttons
+  // Set up initial like state
+  if (data.isLiked) {
+    cardLikeBtn.classList.add("card__like-btn_liked");
+  }
+
+  // updated like button handler
   cardLikeBtn.addEventListener("click", () => {
-    cardLikeBtn.classList.toggle("card__like-btn_liked");
+    const isLiked = cardLikeBtn.classList.contains("card__like-btn_liked");
+
+    // Call the API to update like status
+    api
+      .handleLikeStatus(data._id, isLiked)
+      .then((updatedCard) => {
+        if (updatedCard.isLiked) {
+          cardLikeBtn.classList.add("card__like-btn_liked");
+        } else {
+          cardLikeBtn.classList.remove("card__like-btn_liked");
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating like status:", error);
+      });
   });
 
+  // Delete button listener
   cardDeleteBtn.addEventListener("click", () => {
     handleDeleteCard(cardElement, data._id);
   });
@@ -149,10 +171,27 @@ function handleDeleteSubmit(evt) {
     .catch(console.error);
 }
 
-// Event listener for delete form submit
+// Single declaration and setup for deleteForm
 const deleteForm = document.querySelector("#delete-form");
+
 if (deleteForm) {
-  deleteForm.addEventListener("submit", handleDeleteSubmit);
+  const deleteSubmitButton = deleteForm.querySelector(
+    ".modal__submit-btn_type_delete"
+  );
+
+  deleteForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    showLoading(deleteSubmitButton, true, "Deleting...");
+
+    api
+      .deleteCard(selectedCardId)
+      .then(() => {
+        selectedCard.remove();
+        closeModal(deleteModal);
+      })
+      .catch((error) => console.error("Failed to delete card:", error))
+      .finally(() => showLoading(deleteSubmitButton, false, "Delete"));
+  });
 } else {
   console.error("Delete form not found");
 }
@@ -250,7 +289,7 @@ const cardForm = document.querySelector("#card-form");
 if (cardForm) {
   cardForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    const name = document.querySelector("#card-caption-input").value; // Updated to use correct ID
+    const name = document.querySelector("#card-caption-input").value;
     const link = document.querySelector("#add-card-link-input").value;
     console.log("Name input:", document.querySelector("#card-caption-input"));
     console.log("Link input:", document.querySelector("#add-card-link-input"));
@@ -267,6 +306,85 @@ if (cardForm) {
   });
 } else {
   console.error("Card form not found");
+}
+
+// Profile Edit Form Submission
+const editProfileForm = document.querySelector("#edit-profile-form");
+if (editProfileForm) {
+  const editProfileButton = editProfileForm.querySelector(".modal__submit-btn");
+
+  editProfileForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    showLoading(editProfileButton, true); // Show "Saving..."
+
+    const name = document.querySelector("#profile-name-input").value;
+    const description = document.querySelector(
+      "#profile-description-input"
+    ).value;
+
+    api
+      .editUserInfo({ name, about: description })
+      .then((userData) => {
+        document.querySelector(".profile__name").textContent = userData.name;
+        document.querySelector(".profile__description").textContent =
+          userData.about;
+        closeModal(editModal);
+      })
+      .catch((error) => console.error("Failed to edit profile:", error))
+      .finally(() => showLoading(editProfileButton, false)); // Revert button text
+  });
+} else {
+  console.error("Profile edit form not found");
+}
+
+// Add Card Form Submission
+const addCardForm = document.querySelector("#card-form");
+if (addCardForm) {
+  const addCardButton = addCardForm.querySelector(".modal__submit-btn");
+
+  addCardForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    showLoading(addCardButton, true); // Show "Saving..."
+
+    const name = document.querySelector("#card-caption-input").value;
+    const link = document.querySelector("#add-card-link-input").value;
+
+    api
+      .addCard({ name, link })
+      .then((cardData) => {
+        const newCard = getCardElement(cardData);
+        document.querySelector(".cards__list").prepend(newCard);
+        closeModal(cardModal);
+      })
+      .catch((error) => console.error("Failed to add card:", error))
+      .finally(() => showLoading(addCardButton, false)); // Revert button text
+  });
+} else {
+  console.error("Add card form not found");
+}
+
+// Avatar Edit Form Submission
+const avatarForm = document.querySelector("#edit-avatar-form");
+if (avatarForm) {
+  const avatarSubmitButton = avatarForm.querySelector(".modal__submit-btn");
+
+  avatarForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    showLoading(avatarSubmitButton, true); // Show "Saving..."
+
+    const avatarLink = document.querySelector("#profile-avatar-input").value;
+
+    api
+      .editAvatarInfo(avatarLink)
+      .then((userData) => {
+        document.querySelector(".profile__avatar").src = userData.avatar;
+        closeModal(avatarModal);
+      })
+      .catch((error) => console.error("Failed to update avatar:", error))
+      .finally(() => showLoading(avatarSubmitButton, false)); // Revert button text
+  });
+} else {
+  console.error("Avatar form not found");
 }
 
 // Enable validation
