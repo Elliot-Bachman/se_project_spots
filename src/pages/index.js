@@ -82,6 +82,8 @@ api
     document.querySelector(".profile__description").textContent =
       userInfo.about;
 
+    console.log("User Avatar URL:", userInfo.avatar);
+
     const cardsList = document.querySelector(".cards__list");
     if (!cardsList) {
       console.error("cardsList element not found");
@@ -100,6 +102,7 @@ api
 
 // Function to create a card element from data
 function getCardElement(data) {
+  console.log("Card Image URL:", data.link);
   const cardTemplate = document.querySelector("#card-template");
   if (!cardTemplate) {
     console.error("Card template not found");
