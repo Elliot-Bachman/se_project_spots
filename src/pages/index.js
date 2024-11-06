@@ -180,6 +180,27 @@ if (deleteForm) {
   );
 
   deleteForm.addEventListener("submit", (event) => {
+    if (deleteForm) {
+      const deleteSubmitButton = deleteForm.querySelector(
+        ".modal__submit-btn_type_delete"
+      );
+
+      deleteForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        showLoading(deleteSubmitButton, true, "Deleting...", "Delete");
+
+        api
+          .deleteCard(selectedCardId)
+          .then(() => {
+            selectedCard.remove();
+            closeModal(deleteModal);
+          })
+          .catch((error) => console.error("Failed to delete card:", error))
+          .finally(() =>
+            showLoading(deleteSubmitButton, false, "Deleting...", "Delete")
+          );
+      });
+    }
     event.preventDefault();
     showLoading(deleteSubmitButton, true, "Deleting...");
 
