@@ -203,5 +203,71 @@ if (deleteCancelButton) {
   console.error("Delete modal cancel button not found");
 }
 
+// Avatar Modal Close Button Listener
+const avatarModalCloseBtn = document.querySelector("#avatar-modal-close-btn");
+if (avatarModalCloseBtn) {
+  avatarModalCloseBtn.addEventListener("click", () => closeModal(avatarModal));
+} else {
+  console.error("Avatar modal close button not found");
+}
+
+// Edit Profile Modal Close Button Listener
+const editModalCloseBtn = editModal.querySelector(".modal__close-btn");
+if (editModalCloseBtn) {
+  editModalCloseBtn.addEventListener("click", () => closeModal(editModal));
+} else {
+  console.error("Edit profile modal close button not found");
+}
+
+// Add Card Modal Close Button Listener
+const addCardModalCloseBtn = document.querySelector("#add-card-close-btn");
+if (addCardModalCloseBtn) {
+  addCardModalCloseBtn.addEventListener("click", () => closeModal(cardModal));
+} else {
+  console.error("Add card modal close button not found");
+}
+
+// Preview Modal Close Button Listener
+const previewModalCloseBtn = document.querySelector("#preview-modal-close-btn");
+if (previewModalCloseBtn) {
+  previewModalCloseBtn.addEventListener("click", () =>
+    closeModal(previewModal)
+  );
+} else {
+  console.error("Preview modal close button not found");
+}
+
+// Delete Modal Close Button Listener
+const deleteModalCloseBtn = document.querySelector("#delete-modal-close-btn");
+if (deleteModalCloseBtn) {
+  deleteModalCloseBtn.addEventListener("click", () => closeModal(deleteModal));
+} else {
+  console.error("Delete modal close button not found");
+}
+
+// Add Card Modal Setup
+const cardForm = document.querySelector("#card-form");
+if (cardForm) {
+  cardForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const name = document.querySelector("#card-caption-input").value; // Updated to use correct ID
+    const link = document.querySelector("#add-card-link-input").value;
+    console.log("Name input:", document.querySelector("#card-caption-input"));
+    console.log("Link input:", document.querySelector("#add-card-link-input"));
+
+    // API call to add a new card
+    api
+      .addCard({ name, link })
+      .then((cardData) => {
+        const newCard = getCardElement(cardData); // Create card element from API response
+        if (newCard) document.querySelector(".cards__list").prepend(newCard); // Prepend new card to list
+        closeModal(cardModal); // Close the modal after adding
+      })
+      .catch((error) => console.error("Failed to add card:", error));
+  });
+} else {
+  console.error("Card form not found");
+}
+
 // Enable validation
 enableValidation(settings);

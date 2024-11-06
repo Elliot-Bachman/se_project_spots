@@ -23,9 +23,9 @@
           <div class="profile__avatar-container">
             <button class="profile__avatar-btn">
               <img
-                class="white__pencil-icon"
                 src=""
                 alt="White Profile Pencil Icon"
+                class="white__pencil-icon"
               />
             </button>
             <img src="" alt="Bessie Coleman" class="profile__avatar" />
@@ -42,6 +42,7 @@
             <img src="" alt="Plus icon" class="profile__plus-icon" />New Post
           </button>
         </section>
+
         <section class="cards page__section">
           <ul class="cards__list"></ul>
           <template id="card-template">
@@ -56,6 +57,7 @@
           </template>
         </section>
       </main>
+
       <footer class="footer">
         <p class="footer__copyright">2024 &copy; Spots</p>
       </footer>
@@ -64,10 +66,14 @@
     <!-- Edit Profile Modal -->
     <div class="modal" id="edit-modal">
       <div class="modal__container">
-        <button type="button" class="modal__close-btn"></button>
+        <button
+          type="button"
+          class="modal__close-btn"
+          id="edit-modal-close-btn"
+        ></button>
         <h2 class="modal__title">Edit profile</h2>
         <form
-          name="Edit-profile"
+          name="edit-profile"
           class="modal__form"
           id="edit-profile-form"
           novalidate
@@ -76,7 +82,7 @@
             Name
             <input
               id="profile-name-input"
-              name="Name"
+              name="name"
               type="text"
               class="modal__input"
               placeholder="Type your name"
@@ -90,7 +96,7 @@
             Description
             <input
               id="profile-description-input"
-              name="Description"
+              name="description"
               type="text"
               class="modal__input"
               placeholder="Type your description here"
@@ -114,7 +120,7 @@
         <button
           type="button"
           class="modal__close-btn"
-          id="modal-close-btn"
+          id="add-card-close-btn"
         ></button>
         <h2 class="modal__title">New post</h2>
         <form name="add-card" class="modal__form" id="card-form" novalidate>
@@ -122,7 +128,7 @@
             Image link
             <input
               id="add-card-link-input"
-              name="Image link"
+              name="link"
               type="url"
               class="modal__input"
               placeholder="Paste a link to the picture"
@@ -130,7 +136,7 @@
             />
             <span id="add-card-link-input-error" class="modal__error"></span>
           </label>
-          <label for="add-card-name-input" class="modal__label">
+          <label for="card-caption-input" class="modal__label">
             Caption
             <input
               id="card-caption-input"
@@ -142,7 +148,7 @@
               maxlength="30"
               required
             />
-            <span id="add-card-name-input-error" class="modal__error"></span>
+            <span id="card-caption-input-error" class="modal__error"></span>
           </label>
           <button type="submit" class="modal__submit-btn">Save</button>
         </form>
@@ -154,9 +160,9 @@
       <div class="modal__preview">
         <div class="modal__container modal__container_type_preview">
           <button
-            type="submit"
+            type="button"
             class="modal__close-btn modal__close-btn_type_preview"
-            id="modal-close-btn"
+            id="preview-modal-close-btn"
           ></button>
           <img class="modal__image" src="" alt="" />
           <p class="modal__caption"></p>
@@ -180,11 +186,11 @@
           novalidate
         >
           <label for="profile-avatar-input" class="modal__label">
-            >Profile Picture
+            Profile Picture
             <input
               id="profile-avatar-input"
               name="avatar"
-              tupe="url"
+              type="url"
               class="modal__input"
               placeholder="Paste the link to an image"
               required
@@ -196,7 +202,7 @@
       </div>
     </div>
 
-    <!--TODO STYLE THE Delete MODAL-->
+    <!-- Delete Modal -->
     <div class="modal" id="delete-modal">
       <div class="modal__container modal__container_type_delete">
         <button
