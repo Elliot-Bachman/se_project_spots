@@ -148,29 +148,31 @@ function setUpLikeButton(likeButton, data) {
 // Function for Delete modal logic
 function openDeleteModal(cardElement, cardId) {
   const deleteButton = deleteForm.querySelector(".modal__submit-btn");
-  showLoading(deleteButton, false, "Deleting...", "Delete"); // Ensure "Delete" is the default text
+
+  // Show the delete modal and reset button text
+  showLoading(deleteButton, false, "Deleting...", "Delete");
   openModal(deleteModal);
 
-  // Event listener for actual deletion
-  deleteForm.addEventListener(
-    "submit",
-    (evt) => {
-      evt.preventDefault();
-      showLoading(deleteButton, true, "Deleting...", "Delete"); // Set button to "Deleting..."
+  // Remove any previous submit event listeners
+  const handleDeleteSubmit = (evt) => {
+    evt.preventDefault();
+    showLoading(deleteButton, true, "Deleting...", "Delete"); // Show "Deleting..." on submit
 
-      api
-        .deleteCard(cardId)
-        .then(() => {
-          cardElement.remove(); // Remove card from DOM after deletion
-          closeModal(deleteModal);
-        })
-        .catch((error) => console.error("Failed to delete card:", error))
-        .finally(() =>
-          showLoading(deleteButton, false, "Deleting...", "Delete")
-        ); // Revert button text to "Delete"
-    },
-    { once: true }
-  );
+    api
+      .deleteCard(cardId)
+      .then(() => {
+        cardElement.remove(); // Remove card from DOM on successful deletion
+        closeModal(deleteModal);
+      })
+      .catch((error) => console.error("Failed to delete card:", error))
+      .finally(() => showLoading(deleteButton, false, "Deleting...", "Delete")); // Reset button text
+  };
+
+  // Remove any existing submit listeners to prevent multiple deletions
+  deleteForm.removeEventListener("submit", handleDeleteSubmit);
+
+  // Add the submit event listener for the current card delete request
+  deleteForm.addEventListener("submit", handleDeleteSubmit, { once: true }); // Use `once: true` for automatic removal
 }
 
 // Profile edit form submission
@@ -178,6 +180,7 @@ editProfileForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const saveButton = editProfileForm.querySelector(".modal__submit-btn");
   showLoading(saveButton, true, "Saving...", "Save");
+
   const name = editProfileForm.querySelector("#profile-name-input").value;
   const about = editProfileForm.querySelector(
     "#profile-description-input"
@@ -192,6 +195,18 @@ editProfileForm.addEventListener("submit", (evt) => {
       closeModal(editModal);
     })
     .finally(() => showLoading(saveButton, false, "Saving...", "Save"));
+});
+
+// New event listener to pre-fill the form when opening the profile modal
+const editProfileButton = document.querySelector(".profile__edit-btn");
+editProfileButton.addEventListener("click", () => {
+  // Populate inputs with the current profile data
+  document.querySelector("#profile-name-input").value =
+    document.querySelector(".profile__name").textContent;
+  document.querySelector("#profile-description-input").value =
+    document.querySelector(".profile__description").textContent;
+
+  openModal(editModal); // Open the modal after setting the input values
 });
 
 // Avatar form submission
@@ -242,10 +257,6 @@ if (deleteCancelButton) {
 // Open Add Card modal
 const addCardButton = document.querySelector(".profile__add-btn");
 addCardButton.addEventListener("click", () => openModal(cardModal));
-
-// Open Edit Profile modal
-const editProfileButton = document.querySelector(".profile__edit-btn");
-editProfileButton.addEventListener("click", () => openModal(editModal));
 
 // Open Edit Avatar modal
 const editAvatarButton = document.querySelector(".profile__avatar-btn");
