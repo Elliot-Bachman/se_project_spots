@@ -148,7 +148,7 @@ function setUpLikeButton(likeButton, data) {
 // Function for Delete modal logic
 function openDeleteModal(cardElement, cardId) {
   const deleteButton = deleteForm.querySelector(".modal__submit-btn");
-  showLoading(deleteButton, false, "Delete"); // Ensure "Delete" is the default text
+  showLoading(deleteButton, false, "Deleting...", "Delete"); // Ensure "Delete" is the default text
   openModal(deleteModal);
 
   // Event listener for actual deletion
@@ -156,7 +156,7 @@ function openDeleteModal(cardElement, cardId) {
     "submit",
     (evt) => {
       evt.preventDefault();
-      showLoading(deleteButton, true, "Deleting..."); // Set button to "Deleting..."
+      showLoading(deleteButton, true, "Deleting...", "Delete"); // Set button to "Deleting..."
 
       api
         .deleteCard(cardId)
@@ -165,7 +165,9 @@ function openDeleteModal(cardElement, cardId) {
           closeModal(deleteModal);
         })
         .catch((error) => console.error("Failed to delete card:", error))
-        .finally(() => showLoading(deleteButton, false, "Delete")); // Revert button text to "Delete"
+        .finally(() =>
+          showLoading(deleteButton, false, "Deleting...", "Delete")
+        ); // Revert button text to "Delete"
     },
     { once: true }
   );
@@ -175,7 +177,7 @@ function openDeleteModal(cardElement, cardId) {
 editProfileForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const saveButton = editProfileForm.querySelector(".modal__submit-btn");
-  showLoading(saveButton, true);
+  showLoading(saveButton, true, "Saving...", "Save");
   const name = editProfileForm.querySelector("#profile-name-input").value;
   const about = editProfileForm.querySelector(
     "#profile-description-input"
@@ -189,7 +191,7 @@ editProfileForm.addEventListener("submit", (evt) => {
         userData.about;
       closeModal(editModal);
     })
-    .finally(() => showLoading(saveButton, false));
+    .finally(() => showLoading(saveButton, false, "Saving...", "Save"));
 });
 
 // Avatar form submission
