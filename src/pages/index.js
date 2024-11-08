@@ -105,7 +105,7 @@ api
       cardsList.prepend(createCardElement(cardData));
     });
   })
-  .catch(console.error);
+  .catch((error) => console.error("Failed to load initial app info:", error));
 
 // Card creation function
 function createCardElement(data) {
@@ -152,7 +152,7 @@ function setUpLikeButton(likeButton, data) {
       .then((updatedData) =>
         likeButton.classList.toggle("card__like-btn_liked", updatedData.isLiked)
       )
-      .catch(console.error);
+      .catch((error) => console.error("Failed to update like status:", error));
   });
 }
 
@@ -200,6 +200,7 @@ editProfileForm.addEventListener("submit", (evt) => {
       profileDescription.textContent = userData.about;
       closeModal(editModal);
     })
+    .catch((error) => console.error("Failed to edit profile:", error))
     .finally(() => showLoading(saveButton, false, "Saving...", "Save"));
 });
 
@@ -232,6 +233,7 @@ avatarForm.addEventListener("submit", (evt) => {
       profileAvatar.src = userData.avatar;
       closeModal(avatarModal);
     })
+    .catch((error) => console.error("Failed to update avatar:", error))
     .finally(() => showLoading(saveButton, false));
 });
 
@@ -256,6 +258,7 @@ cardForm.addEventListener("submit", (evt) => {
       );
       resetValidation(cardForm, inputList, settings);
     })
+    .catch((error) => console.error("Failed to add card:", error))
     .finally(() => showLoading(saveButton, false, "Saving...", "Save"));
 });
 
