@@ -16,6 +16,10 @@ import pencilImage from "../images/pencil.svg";
 import plusImage from "../images/plus.svg";
 import whitePencilIcon from "../images/White-Pencil.png";
 
+//
+let selectedCard;
+let selectedCardId;
+
 // Set initial image sources
 document.querySelector(".header__logo").src = logoImage;
 document.querySelector(".profile__avatar").src = avatarImage;
@@ -147,32 +151,36 @@ function setUpLikeButton(likeButton, data) {
 
 // Function for Delete modal logic
 function openDeleteModal(cardElement, cardId) {
+  selectedCard = cardElement;
+  selectedCardId = cardId;
+
   const deleteButton = deleteForm.querySelector(".modal__submit-btn");
+  showLoading(deleteButton, false, "Deleting..", "Delete"); // Reset button text to "Delete"
 
-  // Show the delete modal and reset button text
-  showLoading(deleteButton, false, "Deleting...", "Delete");
-  openModal(deleteModal);
-
-  // Remove any previous submit event listeners
-  const handleDeleteSubmit = (evt) => {
+  // Define a new delete handler for the delete action
+  const newDeleteHandler = (evt) => {
     evt.preventDefault();
-    showLoading(deleteButton, true, "Deleting...", "Delete"); // Show "Deleting..." on submit
+    showLoading(deleteButton, true, "Deleting...", "Delete"); // Show "Deleting..." while processing
 
     api
-      .deleteCard(cardId)
+      .deleteCard(selectedCardId)
       .then(() => {
-        cardElement.remove(); // Remove card from DOM on successful deletion
+        selectedCard.remove(); // Remove the selected card from DOM upon successful deletion
         closeModal(deleteModal);
       })
       .catch((error) => console.error("Failed to delete card:", error))
-      .finally(() => showLoading(deleteButton, false, "Deleting...", "Delete")); // Reset button text
+      .finally(() => showLoading(deleteButton, false, "Deleting", "Delete")); // Reset button text to "Delete"
   };
 
-  // Remove any existing submit listeners to prevent multiple deletions
-  deleteForm.removeEventListener("submit", handleDeleteSubmit);
+  // Remove any previously attached handler from deleteForm if it exists
+  deleteForm.removeEventListener("submit", deleteForm._deleteHandler);
 
-  // Add the submit event listener for the current card delete request
-  deleteForm.addEventListener("submit", handleDeleteSubmit, { once: true }); // Use `once: true` for automatic removal
+  // Store the new handler in a property and attach it to the delete form
+  deleteForm._deleteHandler = newDeleteHandler;
+  deleteForm.addEventListener("submit", newDeleteHandler, { once: true });
+
+  // Open the delete modal
+  openModal(deleteModal);
 }
 
 // Profile edit form submission
