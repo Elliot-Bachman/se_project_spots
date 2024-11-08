@@ -235,19 +235,32 @@ avatarForm.addEventListener("submit", (evt) => {
 cardForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const saveButton = cardForm.querySelector(".modal__submit-btn");
-  showLoading(saveButton, true);
+  showLoading(saveButton, true, "Saving...", "Save");
   const name = cardForm.querySelector("#card-caption-input").value;
   const link = cardForm.querySelector("#add-card-link-input").value;
 
   api
     .addCard({ name, link })
     .then((cardData) => {
+      // Add the new card to the cards list
       document
         .querySelector(".cards__list")
         .prepend(createCardElement(cardData));
+
+      // Close the modal after adding
       closeModal(cardModal);
+
+      // Reset the form fields and disable the button
+      cardForm.reset(); // Clears the input fields
+      disableButton(saveButton, settings); // Disable the save button
+
+      // Reset validation state for a clean slate
+      const inputList = Array.from(
+        cardForm.querySelectorAll(settings.inputSelector)
+      );
+      resetValidation(cardForm, inputList, settings);
     })
-    .finally(() => showLoading(saveButton, false));
+    .finally(() => showLoading(saveButton, false, "Saving...", "Save"));
 });
 
 // Cancel button event listener to close delete modal without deleting
