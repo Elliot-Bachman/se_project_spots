@@ -142,8 +142,24 @@
     padding-top: 20px;
   }
 
+  .profile__avatar {
+    height: 80px;
+    margin: 0 0 12px;
+    width: 80px;
+  }
+
   .profile__avatar-btn {
+    align-items: center;
+    background-color: #212121;
+    border: none;
+    border-radius: 5px;
+    height: 23.34px;
+    left: 52px;
+    opacity: 0.6;
+    padding: 0;
+    top: 52px;
     visibility: visible;
+    width: 23.34px;
   }
 
   .profile__avatar-btn::after {
