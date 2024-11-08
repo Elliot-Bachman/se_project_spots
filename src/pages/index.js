@@ -16,7 +16,6 @@ import pencilImage from "../images/pencil.svg";
 import plusImage from "../images/plus.svg";
 import whitePencilIcon from "../images/White-Pencil.png";
 
-//
 let selectedCard;
 let selectedCardId;
 
@@ -153,35 +152,27 @@ function setUpLikeButton(likeButton, data) {
 function openDeleteModal(cardElement, cardId) {
   selectedCard = cardElement;
   selectedCardId = cardId;
-
-  const deleteButton = deleteForm.querySelector(".modal__submit-btn");
-  showLoading(deleteButton, false, "Deleting..", "Delete"); // Reset button text to "Delete"
-
-  // Define a new delete handler for the delete action
-  const newDeleteHandler = (evt) => {
-    evt.preventDefault();
-    showLoading(deleteButton, true, "Deleting...", "Delete"); // Show "Deleting..." while processing
-
-    api
-      .deleteCard(selectedCardId)
-      .then(() => {
-        selectedCard.remove(); // Remove the selected card from DOM upon successful deletion
-        closeModal(deleteModal);
-      })
-      .catch((error) => console.error("Failed to delete card:", error))
-      .finally(() => showLoading(deleteButton, false, "Deleting", "Delete")); // Reset button text to "Delete"
-  };
-
-  // Remove any previously attached handler from deleteForm if it exists
-  deleteForm.removeEventListener("submit", deleteForm._deleteHandler);
-
-  // Store the new handler in a property and attach it to the delete form
-  deleteForm._deleteHandler = newDeleteHandler;
-  deleteForm.addEventListener("submit", newDeleteHandler, { once: true });
-
-  // Open the delete modal
-  openModal(deleteModal);
+  openModal(deleteModal); // Open the delete modal
 }
+
+// Define the delete form submit handler only once
+const deleteButton = deleteForm.querySelector(".modal__submit-btn");
+const handleDeleteSubmit = (evt) => {
+  evt.preventDefault();
+  showLoading(deleteButton, true, "Deleting...", "Delete");
+
+  api
+    .deleteCard(selectedCardId)
+    .then(() => {
+      selectedCard.remove();
+      closeModal(deleteModal);
+    })
+    .catch((error) => console.error("Failed to delete card:", error))
+    .finally(() => showLoading(deleteButton, false, "Deleting", "Delete"));
+};
+
+// Attach the submit event listener to deleteForm only once
+deleteForm.addEventListener("submit", handleDeleteSubmit);
 
 // Profile edit form submission
 editProfileForm.addEventListener("submit", (evt) => {
@@ -250,19 +241,14 @@ cardForm.addEventListener("submit", (evt) => {
   api
     .addCard({ name, link })
     .then((cardData) => {
-      // Add the new card to the cards list
       document
         .querySelector(".cards__list")
         .prepend(createCardElement(cardData));
 
-      // Close the modal after adding
       closeModal(cardModal);
+      cardForm.reset();
+      disableButton(saveButton, settings);
 
-      // Reset the form fields and disable the button
-      cardForm.reset(); // Clears the input fields
-      disableButton(saveButton, settings); // Disable the save button
-
-      // Reset validation state for a clean slate
       const inputList = Array.from(
         cardForm.querySelectorAll(settings.inputSelector)
       );
