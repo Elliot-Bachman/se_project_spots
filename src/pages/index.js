@@ -16,12 +16,33 @@ import pencilImage from "../images/pencil.svg";
 import plusImage from "../images/plus.svg";
 import whitePencilIcon from "../images/White-Pencil.png";
 
+// Global variables for selected card deletion
 let selectedCard;
 let selectedCardId;
 
+// Frequently accessed DOM elements
+const headerLogo = document.querySelector(".header__logo");
+const profileAvatar = document.querySelector(".profile__avatar");
+const profileName = document.querySelector(".profile__name");
+const profileDescription = document.querySelector(".profile__description");
+const editProfileButton = document.querySelector(".profile__edit-btn");
+const addCardButton = document.querySelector(".profile__add-btn");
+const editAvatarButton = document.querySelector(".profile__avatar-btn");
+const cardsList = document.querySelector(".cards__list");
+
+const editModal = document.querySelector("#edit-modal");
+const cardModal = document.querySelector("#add-card-modal");
+const avatarModal = document.querySelector("#avatar-modal");
+const deleteModal = document.querySelector("#delete-modal");
+const deleteForm = document.querySelector("#delete-form");
+const cardForm = document.querySelector("#card-form");
+const avatarForm = document.querySelector("#edit-avatar-form");
+const editProfileForm = document.querySelector("#edit-profile-form");
+const previewModal = document.querySelector("#preview-modal");
+
 // Set initial image sources
-document.querySelector(".header__logo").src = logoImage;
-document.querySelector(".profile__avatar").src = avatarImage;
+headerLogo.src = logoImage;
+profileAvatar.src = avatarImage;
 document.querySelector(".profile__pencil-icon").src = pencilImage;
 document.querySelector(".profile__plus-icon").src = plusImage;
 document.querySelector(".white__pencil-icon").src = whitePencilIcon;
@@ -34,17 +55,6 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-
-// Selectors
-const editModal = document.querySelector("#edit-modal");
-const cardModal = document.querySelector("#add-card-modal");
-const avatarModal = document.querySelector("#avatar-modal");
-const deleteModal = document.querySelector("#delete-modal");
-const deleteForm = document.querySelector("#delete-form");
-const cardForm = document.querySelector("#card-form");
-const avatarForm = document.querySelector("#edit-avatar-form");
-const editProfileForm = document.querySelector("#edit-profile-form");
-const previewModal = document.querySelector("#preview-modal");
 
 // Open and close modal functions
 function openModal(modal) {
@@ -87,15 +97,13 @@ setUpCloseButtons();
 api
   .getAppInfo()
   .then(([cards, userInfo]) => {
-    document.querySelector(".profile__avatar").src = userInfo.avatar;
-    document.querySelector(".profile__name").textContent = userInfo.name;
-    document.querySelector(".profile__description").textContent =
-      userInfo.about;
+    profileAvatar.src = userInfo.avatar;
+    profileName.textContent = userInfo.name;
+    profileDescription.textContent = userInfo.about;
 
-    const cardsList = document.querySelector(".cards__list");
-    cards
-      .reverse()
-      .forEach((cardData) => cardsList.prepend(createCardElement(cardData)));
+    cards.reverse().forEach((cardData) => {
+      cardsList.prepend(createCardElement(cardData));
+    });
   })
   .catch(console.error);
 
@@ -121,10 +129,10 @@ function createCardElement(data) {
 
 // Helper function to set up image preview
 function setUpImagePreview(imageElement, data) {
-  imageElement.addEventListener("click", () => {
-    const modalImage = previewModal.querySelector(".modal__image");
-    const modalCaption = previewModal.querySelector(".modal__caption");
+  const modalImage = previewModal.querySelector(".modal__image");
+  const modalCaption = previewModal.querySelector(".modal__caption");
 
+  imageElement.addEventListener("click", () => {
     modalImage.src = data.link;
     modalImage.alt = data.name;
     modalCaption.textContent = data.name;
@@ -188,28 +196,25 @@ editProfileForm.addEventListener("submit", (evt) => {
   api
     .editUserInfo({ name, about })
     .then((userData) => {
-      document.querySelector(".profile__name").textContent = userData.name;
-      document.querySelector(".profile__description").textContent =
-        userData.about;
+      profileName.textContent = userData.name;
+      profileDescription.textContent = userData.about;
       closeModal(editModal);
     })
     .finally(() => showLoading(saveButton, false, "Saving...", "Save"));
 });
 
 // New event listener to pre-fill the form when opening the profile modal
-const editProfileButton = document.querySelector(".profile__edit-btn");
 editProfileButton.addEventListener("click", () => {
-  const editProfileForm = document.querySelector("#edit-profile-form");
   const inputList = Array.from(
     editProfileForm.querySelectorAll(settings.inputSelector)
   );
   // Clear validation errors and reset form state
   resetValidation(editProfileForm, inputList, settings);
   // Populate inputs with the current profile data
-  document.querySelector("#profile-name-input").value =
-    document.querySelector(".profile__name").textContent;
-  document.querySelector("#profile-description-input").value =
-    document.querySelector(".profile__description").textContent;
+  editProfileForm.querySelector("#profile-name-input").value =
+    profileName.textContent;
+  editProfileForm.querySelector("#profile-description-input").value =
+    profileDescription.textContent;
 
   openModal(editModal); // Open the modal after setting the input values
 });
@@ -224,7 +229,7 @@ avatarForm.addEventListener("submit", (evt) => {
   api
     .editAvatarInfo(avatarLink)
     .then((userData) => {
-      document.querySelector(".profile__avatar").src = userData.avatar;
+      profileAvatar.src = userData.avatar;
       closeModal(avatarModal);
     })
     .finally(() => showLoading(saveButton, false));
@@ -241,10 +246,7 @@ cardForm.addEventListener("submit", (evt) => {
   api
     .addCard({ name, link })
     .then((cardData) => {
-      document
-        .querySelector(".cards__list")
-        .prepend(createCardElement(cardData));
-
+      cardsList.prepend(createCardElement(cardData));
       closeModal(cardModal);
       cardForm.reset();
       disableButton(saveButton, settings);
@@ -268,11 +270,9 @@ if (deleteCancelButton) {
 }
 
 // Open Add Card modal
-const addCardButton = document.querySelector(".profile__add-btn");
 addCardButton.addEventListener("click", () => openModal(cardModal));
 
 // Open Edit Avatar modal
-const editAvatarButton = document.querySelector(".profile__avatar-btn");
 editAvatarButton.addEventListener("click", () => openModal(avatarModal));
 
 // Initialize validation
