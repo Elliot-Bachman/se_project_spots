@@ -201,7 +201,7 @@
 }
 
 .modal__form_type_delete .modal__submit-btn_type_delete:hover {
-  background-color: rgb(203, 6, 6);
+  background-color: #f33;
 }
 
 /* Delete Close Button */
