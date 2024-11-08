@@ -200,6 +200,12 @@ editProfileForm.addEventListener("submit", (evt) => {
 // New event listener to pre-fill the form when opening the profile modal
 const editProfileButton = document.querySelector(".profile__edit-btn");
 editProfileButton.addEventListener("click", () => {
+  const editProfileForm = document.querySelector("#edit-profile-form");
+  const inputList = Array.from(
+    editProfileForm.querySelectorAll(settings.inputSelector)
+  );
+  // Clear validation errors and reset form state
+  resetValidation(editProfileForm, inputList, settings);
   // Populate inputs with the current profile data
   document.querySelector("#profile-name-input").value =
     document.querySelector(".profile__name").textContent;
