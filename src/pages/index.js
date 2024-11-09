@@ -29,6 +29,13 @@ const editProfileButton = document.querySelector(".profile__edit-btn");
 const addCardButton = document.querySelector(".profile__add-btn");
 const editAvatarButton = document.querySelector(".profile__avatar-btn");
 const cardsList = document.querySelector(".cards__list");
+const cardCaptionInput = document.querySelector("#card-caption-input");
+const addCardLinkInput = document.querySelector("#add-card-link-input");
+const profileAvatarInput = document.querySelector("#profile-avatar-input");
+const profileNameInput = document.querySelector("#profile-name-input");
+const profileDescriptionInput = document.querySelector(
+  "#profile-description-input"
+);
 
 const editModal = document.querySelector("#edit-modal");
 const cardModal = document.querySelector("#add-card-modal");
@@ -39,6 +46,8 @@ const cardForm = document.querySelector("#card-form");
 const avatarForm = document.querySelector("#edit-avatar-form");
 const editProfileForm = document.querySelector("#edit-profile-form");
 const previewModal = document.querySelector("#preview-modal");
+const modalImage = previewModal.querySelector(".modal__image");
+const modalCaption = previewModal.querySelector(".modal__caption");
 
 // Set initial image sources
 headerLogo.src = logoImage;
@@ -129,9 +138,6 @@ function createCardElement(data) {
 
 // Helper function to set up image preview
 function setUpImagePreview(imageElement, data) {
-  const modalImage = previewModal.querySelector(".modal__image");
-  const modalCaption = previewModal.querySelector(".modal__caption");
-
   imageElement.addEventListener("click", () => {
     modalImage.src = data.link;
     modalImage.alt = data.name;
@@ -176,7 +182,7 @@ const handleDeleteSubmit = (evt) => {
       closeModal(deleteModal);
     })
     .catch((error) => console.error("Failed to delete card:", error))
-    .finally(() => showLoading(deleteButton, false, "Delete", "Deleting..."));
+    .finally(() => showLoading(deleteButton, false, "Deleteing", "Delete..."));
 };
 
 // Attach the submit event listener to deleteForm only once
@@ -188,10 +194,9 @@ editProfileForm.addEventListener("submit", (evt) => {
   const saveButton = evt.submitter;
   showLoading(saveButton, true, "Saving...", "Save");
 
-  const name = editProfileForm.querySelector("#profile-name-input").value;
-  const about = editProfileForm.querySelector(
-    "#profile-description-input"
-  ).value;
+  // Use constants to retrieve input values
+  const name = profileNameInput.value;
+  const about = profileDescriptionInput.value;
 
   api
     .editUserInfo({ name, about })
@@ -211,11 +216,9 @@ editProfileButton.addEventListener("click", () => {
   );
   // Clear validation errors and reset form state
   resetValidation(editProfileForm, inputList, settings);
-  // Populate inputs with the current profile data
-  editProfileForm.querySelector("#profile-name-input").value =
-    profileName.textContent;
-  editProfileForm.querySelector("#profile-description-input").value =
-    profileDescription.textContent;
+  // Use the constants for pre-filling values
+  profileNameInput.value = profileName.textContent;
+  profileDescriptionInput.value = profileDescription.textContent;
 
   openModal(editModal); // Open the modal after setting the input values
 });
@@ -225,7 +228,7 @@ avatarForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const saveButton = evt.submitter;
   showLoading(saveButton, true);
-  const avatarLink = avatarForm.querySelector("#profile-avatar-input").value;
+  const avatarLink = profileAvatarInput.value;
 
   api
     .editAvatarInfo(avatarLink)
@@ -242,8 +245,8 @@ cardForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const saveButton = evt.submitter;
   showLoading(saveButton, true, "Saving...", "Save");
-  const name = cardForm.querySelector("#card-caption-input").value;
-  const link = cardForm.querySelector("#add-card-link-input").value;
+  const name = cardCaptionInput.value;
+  const link = addCardLinkInput.value;
 
   api
     .addCard({ name, link })
