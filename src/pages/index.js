@@ -250,19 +250,12 @@ cardForm.addEventListener("submit", (evt) => {
     .then((cardData) => {
       cardsList.prepend(createCardElement(cardData));
       closeModal(cardModal);
-      cardForm.reset();
-      disableButton(saveButton, settings);
-
-      const inputList = Array.from(
-        cardForm.querySelectorAll(settings.inputSelector)
-      );
-      resetValidation(cardForm, inputList, settings);
+      cardForm.reset(); // Clears the input fields
+      disableButton(saveButton, settings); // Disables the submit button
     })
     .catch((error) => console.error("Failed to add card:", error))
     .finally(() => showLoading(saveButton, false, "Saving...", "Save"));
 });
-
-// Cancel button event listener to close delete modal without deleting
 const deleteCancelButton = deleteModal.querySelector(
   ".modal__submit-btn_type_cancel"
 );
