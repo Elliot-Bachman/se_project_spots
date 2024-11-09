@@ -164,9 +164,9 @@ function openDeleteModal(cardElement, cardId) {
 }
 
 // Define the delete form submit handler only once
-const deleteButton = deleteForm.querySelector(".modal__submit-btn");
 const handleDeleteSubmit = (evt) => {
   evt.preventDefault();
+  const deleteButton = evt.submitter; // Moved inside the function to access `evt.submitter`
   showLoading(deleteButton, true, "Deleting...", "Delete");
 
   api
@@ -176,7 +176,7 @@ const handleDeleteSubmit = (evt) => {
       closeModal(deleteModal);
     })
     .catch((error) => console.error("Failed to delete card:", error))
-    .finally(() => showLoading(deleteButton, false, "Deleting", "Delete"));
+    .finally(() => showLoading(deleteButton, false, "Delete", "Deleting..."));
 };
 
 // Attach the submit event listener to deleteForm only once
@@ -185,7 +185,7 @@ deleteForm.addEventListener("submit", handleDeleteSubmit);
 // Profile edit form submission
 editProfileForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  const saveButton = editProfileForm.querySelector(".modal__submit-btn");
+  const saveButton = evt.submitter;
   showLoading(saveButton, true, "Saving...", "Save");
 
   const name = editProfileForm.querySelector("#profile-name-input").value;
@@ -223,7 +223,7 @@ editProfileButton.addEventListener("click", () => {
 // Avatar form submission
 avatarForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  const saveButton = avatarForm.querySelector(".modal__submit-btn");
+  const saveButton = evt.submitter;
   showLoading(saveButton, true);
   const avatarLink = avatarForm.querySelector("#profile-avatar-input").value;
 
@@ -240,7 +240,7 @@ avatarForm.addEventListener("submit", (evt) => {
 // Add card form submission
 cardForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  const saveButton = cardForm.querySelector(".modal__submit-btn");
+  const saveButton = evt.submitter;
   showLoading(saveButton, true, "Saving...", "Save");
   const name = cardForm.querySelector("#card-caption-input").value;
   const link = cardForm.querySelector("#add-card-link-input").value;
