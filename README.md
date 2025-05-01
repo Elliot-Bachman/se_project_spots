@@ -1,41 +1,78 @@
-# Spots
+# SPOTS
 
-An image sharing site/application.
+A modern image sharing application with responsive design and interactive features.
 
-## Description
+## Table of Contents
 
-The aim of this webpage/application, was to create an image sharing interface that can be properly viewed in 3 different resolutions for different devices. The resolutions include the desktop format, tablet format, and mobile format. The specific numbers are 1440p, 720p and 360p respectively.The use of media querries was nescessary to ensure that all text, icons, and images could fit the designated resolutions listed above. Both flexbox and grid were required to ensure that all assets were aligned correctly on the page in general. The project will be further developed in upcoming Trippleten sprints.
+- [Overview](#overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Screenshots](#screenshots)
+- [Demo](#demo)
+- [Installation](#installation)
+- [Deployment](#deployment)
 
-## Tech Stack
+## Overview
 
--HTML - Was used for the structure of the web application.
--CSS - Was used for both styling aligning all blocks and elements.
--Figma - Was used to gather the schematics for the Spots application. It was also used for exporting image assets.
--VS Code - Our trusted IED for for web development.
--git/gitbash - Was used to save and document changes to the web application during development.
--Github - Was used to store the saved changes that were pushed from git. It is also a great platform for web deployment.
--BEM - Not a technology but the methodology used for organizing code blocks and elements.
+SPOTS is a responsive web application for sharing images, designed to work seamlessly across desktop (1440p), tablet (720p), and mobile (360p) devices. Users can create profiles, share images, and interact with other users' content through likes and comments.
 
-- Java-Script DOM was used for creating dyanamic cards and a modal for personal information submission. 9/29/2024
+## Features
 
-- 2 New modals were added for user accessibility. One modal allows the user to upload image URLs and text captions. The other modal allows for the user to click on the image to enlarge it for easier viewing. 9/10/2024.
+- Responsive design for multiple device sizes
+- User profile management
+- Image posting and sharing
+- Interactive likes and comments
+- Modal-based interactions
+- Form validation
+- Real-time UI updates
 
-- Users can now delete card images too with the trash icons located on each card. The like buttons now stay lit with a red color when clicked on.
+## Technologies Used
 
-- Users can now have validation if their text input is correct or not. The text lines light up red to indicate an error in form input. The submit buttons are grayed out to indicate that incorrect data is input.
+- HTML5
+- CSS3 (Flexbox & Grid)
+- JavaScript (DOM manipulation)
+- Webpack
+- Git/GitHub
+- BEM Methodology
+- Figma (Design)
 
-- Users can now exit each modal by either clicking the escape key or by mouse clicking anywhere outside the modal on the SPOTS web page.
+## Screenshots
 
-## Pictures of project features
+### Home Page
 
-Will be added with future updates.
+![Home Page](./screenshots/Spots%20homepage.gif)
+_Main interface showing the user profile, posts, and navigation elements_
+
+### Edit Profile
+
+![Edit Profile](./screenshots/Edit%20profile.gif)
+_Modal interface for editing user profile information_
+
+### New Post
+
+![New Post](./screenshots/Post%20your%20image%20and%20caption.gif)
+_Interface for creating new image posts with captions_
+
+### Delete Confirmation
+
+![Delete Confirmation](./screenshots/Delete%20images.gif)
+_Modal confirming image deletion with user confirmation_
+
+## Demo
+
+Check out the video demonstration of the project:
+
+- https://drive.google.com/file/d/1pkasIka7mUWH5vk3pJ6Y3t75yVtcA-Ml/view?usp=sharing
+
+## Installation
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Run development server: `npm run dev`
+4. Build for production: `npm run build`
 
 ## Deployment
 
-This webpage is deployed to GitHub Pages.
+The application is deployed on GitHub Pages:
 
 - https://elliot-bachman.github.io/se_project_spots/
-
-## Link to video
-
--https://drive.google.com/file/d/1pkasIka7mUWH5vk3pJ6Y3t75yVtcA-Ml/view?usp=sharing
